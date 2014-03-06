@@ -125,6 +125,6 @@ public class XMLGUI extends JFrame {
 		comboBox.setBounds(20, 74, 404, 176);
 		contentPane.add(comboBox);
 		comboBox.setModel(new DefaultComboBoxModel(programsList.toArray()));
-		comboBox.
+//		comboBox.
 	}
 }
