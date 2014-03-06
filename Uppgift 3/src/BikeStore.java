@@ -9,6 +9,7 @@ public class BikeStore {
 		this.bikes = new ArrayList<Bike>();
 	}
 
+	
 	public String getAllBikes() {
 		String allBikes = "";
 		for(int i = 0; i < bikes.size(); i++){

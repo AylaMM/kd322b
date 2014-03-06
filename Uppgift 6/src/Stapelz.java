@@ -17,6 +17,7 @@ public class Stapelz extends JFrame {
 	// Diagrammet minimumvärde 0 maximumvärde totalt antal sökande för programmet
 	// Kvinnliga, manliga
 	public static void main(String[] args) {
+		
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
