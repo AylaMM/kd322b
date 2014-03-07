@@ -17,6 +17,7 @@ public class Calculator {
 		return result;
 	}
 	
+	//hdfhdfsjhjgdh
 	public int getOperand(){
 		return operand;	
 	}
