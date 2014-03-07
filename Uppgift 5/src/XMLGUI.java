@@ -27,11 +27,24 @@ import javax.swing.JComboBox;
 public class XMLGUI extends JFrame {
 
 	private JPanel contentPane;
-	private Document doc = openXmlFile("ht2013_antagning.xml");
+	private Document doc;
 	private JTextArea txtrFirstElementthe;
+	private JComboBox comboBox;
 	private ArrayList<Program> programsList = new ArrayList<Program>();
 	
-    
+	private static Document openXmlFile(String fileName){
+		Document doc = null;
+		try {
+			File fXmlFile = new File(fileName);
+			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+			doc = dBuilder.parse(fXmlFile);
+			doc.getDocumentElement().normalize();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return doc;
+	}
 	
 	private ArrayList<Program> loadAllPrograms(){
 		ArrayList<Program> output = new ArrayList<Program>();
@@ -48,16 +61,20 @@ public class XMLGUI extends JFrame {
 			String name = elm.getElementsByTagName("name").item(0).getTextContent();
 			// Gör detta för alla fyra olika data! (namn, kod, antal kvinnor, antal män)
 			String code = elm.getElementsByTagName("code").item(0).getTextContent();
-			String women = elm.getElementsByTagName("women").item(0).getTextContent();
-			String men = elm.getElementsByTagName("men").item(0).getTextContent();
+			int women = Integer.parseInt(elm.getElementsByTagName("women").item(0).getTextContent());
+			int men = Integer.parseInt(elm.getElementsByTagName("men").item(0).getTextContent());
 			
 			// Skapa programmet och lägg till i listan
-			Program program = new Program(name, code, Integer.parseInt(women), Integer.parseInt(men));
+			Program program = new Program(name, code, women, men);
 			output.add(program);
 		}
 		return output;
 	}
 	
+	public ArrayList<Program> getProgramsList(){
+		programsList = loadAllPrograms();
+		return programsList;
+	}
 	/***
 	 * Opens the given XML file DOM.
 	 * 
@@ -67,19 +84,7 @@ public class XMLGUI extends JFrame {
 	 * @return A Document instance containing the given XML file.
 	 */
 	
-	private Document openXmlFile(String fileName){
-		Document doc = null;
-		try {
-			File fXmlFile = new File("ht2013_antagning.xml");
-			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-			doc = dBuilder.parse(fXmlFile);
-			doc.getDocumentElement().normalize();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return doc;
-	}
+
 	
 	
 
@@ -105,6 +110,7 @@ public class XMLGUI extends JFrame {
 	 */
 	
 	public XMLGUI() {
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -112,19 +118,21 @@ public class XMLGUI extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
+		doc = openXmlFile("ht2013_antagning.xml");
+		programsList = loadAllPrograms();
+		
 		JLabel lblAmountOfPrograms = new JLabel("Amount of programs:  " + loadAllPrograms().size());
 		lblAmountOfPrograms.setBounds(10, 36, 383, 27);
 		contentPane.add(lblAmountOfPrograms);
 		
 		txtrFirstElementthe = new JTextArea();
 		txtrFirstElementthe.setText("First element (the root): " + doc.getDocumentElement().getNodeName());
-		txtrFirstElementthe.setBounds(10, 11, 414, 132);
+		txtrFirstElementthe.setBounds(10, 11, 414, 98);
 		contentPane.add(txtrFirstElementthe);
 		
-		JComboBox comboBox = new JComboBox();
-		comboBox.setBounds(20, 74, 404, 176);
+		comboBox = new JComboBox();
+		comboBox.setBounds(10, 116, 414, 27);
 		contentPane.add(comboBox);
-		comboBox.setModel(new DefaultComboBoxModel(programsList.toArray()));
-//		comboBox.
+		comboBox.setModel(new DefaultComboBoxModel(getProgramsList().toArray()));
 	}
 }

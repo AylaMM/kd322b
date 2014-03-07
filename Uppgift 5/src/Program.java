@@ -6,13 +6,17 @@ public class Program {
 	private int men;
 	
 	public Program(String name, String code, int women, int men){
-		name = this.name;
-		code = this.code;
-		women = this.women;
-		men = this.men;
+		this.name = name;
+		this.code = code;
+		this.women = women;
+		this.men = men;
 		
 	}
 
+	@Override
+	public String toString(){
+		return name;
+	}
 	public String getName(){
 		return name;
 	}
